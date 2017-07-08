@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Master BMS</title>
+    <meta name="description" content="Master BSM" />
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Sweet Alert -->
+    <script src="./js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+    <!-- Loading Bootstrap -->
+    <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="./css/flat-ui.css" rel="stylesheet">
+    <link href="./css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/lionking.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <script>
+     function init() {
+         if(!localStorage.getItem('token')){
+             location.href = "index.html";
+            localStorage.clear();
+         }
+         else{
+              var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "http://localhost:54250/api/Token", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader("Accept", "*/*");
+            xmlhttp.setRequestHeader("Authorization", "Bearer "+localStorage.getItem("token"));
+            try {
+                xmlhttp.onload = function () {
+                    if (xmlhttp.readyState === xmlhttp.DONE) {
+                        if (xmlhttp.status === 200) {
+                           
+                        }else{
+                              location.href = "index.html";
+                              localStorage.clear();
+                        }
+                    }
+                };
+                xmlhttp.send();
+            } catch (e) {
+                 location.href = "index.html";
+                 localStorage.clear();
+            }
+         }
+     }
+        function not() {
+            swal({
+                title: "Sayfa görüntülenemiyor!",
+                text: "<img style='width:420px; height:240px;' src='img/yapim.jpg'>",
+                html: true
+            });
+        }
+        function alisveris() {
+            location.href = "shopping.html";
+        }
+        
+        function cikis(){
+            location.href = "index.html";
+            localStorage.clear();
+        }
+        function profil(){
+             location.href = "profile.html";
+        }
+    </script>
+</head>
+<body onload="init()" style="background-color: #1abc9c;">
+<div class="col-xs-12">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Master BMS</span>
+              </button>
+            <a class="navbar-brand" href="customerdasboard.html"><img style="margin-top: -12px;width: 50px;" src=".\img\lionking.ico"></a>
+</div>
+<div class="collapse navbar-collapse" id="navbar-collapse-01">
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a href="javascript:void(0)" onclick="alisveris()"href="">Alış verişe Başla</a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">Siparişlerim </a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="profil()">Profil </a>
+</li>
+</ul>
+<form class="navbar-form navbar-right" action="javascript:not();" role="search">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" id="navbarInput-01" type="search" placeholder="Arama">
+            <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+            </span>
+        </div>
+    </div>
+     <div class="form-group" id="username">
+       <button type="button" onclick="profil()" style="color: #ffffff; background-color: #3498db;" class="btn"> <span class="fui-user"></span> 
+       <script>  document.write(localStorage.getItem("name"));</script>
+       </button>
+      </div>
+    <div class="form-group">
+       <button type="button" onclick="cikis()" class="btn"> <span class="fui-exit"></span> Çıkış</button>
+    </div>
+</form>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+<div class="demo-browser">
+    <div class="demo-browser-side">
+        <div class="demo-browser-author"></div>
+        <h4 style="text-align: center;">Master BMS</h4>
+<p>İş hayatı hiç bukadar kolay olmamıştı...</p>
+</div>
+<div class="demo-browser-content">
+    <p>Master BMS firmanızın sektörde yükselirken ihtiyaç duyacağı tüm teknik desteği sağlamayı amaçlayan bir oluşumdur. Firmanız
+        sektörde yükselişine devam ederken firmanın temel işlevlerini yerine getirmesi için yapılması gerekenler Master BMS
+        ile sadece bir tık uzağınızda ... </p>
+    <p> Sektör ayrımı gözetmeksizin bir iş yerinin ihtiyacı neyse ona yönelik ekonomik ve pratik çözümler sunuyoruz. Şirketimiz,
+        "Toptan Fiyatına Perakende" satış mantığı ile kaliyete ihtiyaç duyan şirketler için fiyat avantajını ön planda tutmaktadır.
+        Firmalara sağladığımız avantajlarının başında, hesaplı ve hızlı alışveriş gelmektedir.</p>
+    <div class="row">
+        <div style="height:300px; background-image:url(img/BMS1.jpg);background-size: 400px 300px; background-repeat: no-repeat; " class="col-xs-3" ></div>
+<div style="height:300px;background-image:url(img/BMS2.jpg);background-size: 400px 300px; background-repeat: no-repeat; " class="col-xs-3" ></div>
+<div style="height:300px;background-image:url(img/BMS3.jpg);background-size: 400px 300px; background-repeat: no-repeat; " class="col-xs-3" ></div>
+<div style="height:300px;background-image:url(img/BMS4.jpg);background-size: 400px 300px; background-repeat: no-repeat; " class="col-xs-3" ></div>
+</div>
+</div>
+</div>
+
+<!-- /navbar -->
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/video.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+
+<script>
+                                          videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+</script>
+</body>
+
+</html>

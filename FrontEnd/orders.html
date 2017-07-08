@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Master BMS</title>
+    <meta name="description" content="Master BSM" />
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Sweet Alert -->
+    <script src="./js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+    <!-- Loading Bootstrap -->
+    <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="./css/flat-ui.css" rel="stylesheet">
+    <link href="./css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/lionking.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function init() {
+                     if(!localStorage.getItem('token')){
+             location.href = "index.html";
+            localStorage.clear();
+         }
+         else{
+              var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "http://localhost:54250/api/Token", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader("Accept", "*/*");
+            xmlhttp.setRequestHeader("Authorization", "Bearer "+localStorage.getItem("token"));
+            try {
+                xmlhttp.onload = function () {
+                    if (xmlhttp.readyState === xmlhttp.DONE) {
+                        if (xmlhttp.status === 200) {
+                           
+                        }else{
+                              location.href = "index.html";
+                              localStorage.clear();
+                        }
+                    }
+                };
+                xmlhttp.send();
+            } catch (e) {
+                 location.href = "index.html";
+                 localStorage.clear();
+            }
+         }
+         
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+            xmlhttp.open("GET", "http://localhost:54250/api/Shopping/Transaction/Get", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader("Accept", "*/*");
+            try {
+                var liste = [];
+                xmlhttp.onload = function () {
+                    if (xmlhttp.readyState === xmlhttp.DONE) {
+                        if (xmlhttp.status === 200) {
+                            var rest = JSON.parse(xmlhttp.response);
+                            console.log(rest);
+                            for (var i = 0; i < rest.length; i++) {
+                                liste.push({ urunadi: rest[i].productName, musteriadi: rest[i].name + " " + rest[i].surname, fiyat: rest[i].amount, id: rest[i].id })
+                            }
+                            //  var liste = [{ urunadi: "Urun1", musteriadi: "Musteri1", fiyat: "150", adres: "Musteri1 Adres" }];
+                            var list = document.getElementById("list");
+                            list.innerHTML = "";
+                            for (var i = 0; i < liste.length; i++) {
+                                list.innerHTML += ` <li id="` + liste[i].id + `">
+                                <div class="todo-icon fui-document"></div>
+                                <div class="todo-content">
+                                <table style="width: 100%;">
+                                    <tr >
+                                    <td style="width: 50%;"> <h4 class="todo-name">`+ liste[i].urunadi + `</h4></td> <td style="width: 50%;"> <h4 class="todo-name">` + liste[i].musteriadi + `</h4></td>
+                                    </tr>
+                                    <tr>
+                                    <td>Fiyat: `+ liste[i].fiyat + ` tl</td>
+                                    </tr>
+                                </table>
+
+                                </li>`;
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                swal("Hata", "Lütfen Daha sonra tekrar deneyiniz", "error");
+            }
+            xmlhttp.send(null);
+            //Siparisler DB den cekilecek bu listeye push lanacak
+
+        }
+        function not() {
+            swal({
+                title: "Sayfa görüntülenemiyor!",
+                text: "<img style='width:420px; height:240px;' src='img/yapim.jpg'>",
+                html: true
+            });
+        }
+        function orders() {
+            location.href = "orders.html";
+        }
+
+        function cikis() {
+            location.href = "index.html";
+            localStorage.clear();
+        }
+        function siparissil() {
+            var siparisler = document.getElementsByClassName("todo-done");
+            if (siparisler.length != 0) {
+
+                for (var i = 0; i < siparisler.length; i++) {
+                    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+                    xmlhttp.open("GET", "http://localhost:54250/api/Shopping/Transaction/Delete?id=" + siparisler[i].id, true);
+                    xmlhttp.setRequestHeader("Content-Type", "application/json");
+                    xmlhttp.setRequestHeader("Accept", "*/*");
+                    xmlhttp.send(null);
+                    try {
+                        xmlhttp.onload = function () {
+                            if (xmlhttp.readyState === xmlhttp.DONE) {
+                                if (xmlhttp.status === 204) {
+                                    console.log(xmlhttp.response);
+                                    swal("Sipariş Silindi.", "Sipariş İptal Edildi.", "success");
+                                    init();
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        swal("Giriş başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+                    }
+
+                }
+
+            } {
+                swal("Hata", "Lütfen bir ürün seçiniz", "error");
+            }
+        }
+        function siparisGonder() {
+            var siparisler = document.getElementsByClassName("todo-done");
+            if (siparisler.length != 0) {
+                swal("Sipariş Gönderildi.", "Sipariş Yola çıktı.", "success");
+            } else {
+                swal("Hata", "Lütfen bir ürün seçiniz", "error");
+            }
+        }
+    </script>
+</head>
+<body onload="init()" style="background-color: #1abc9c;">
+<div class="col-xs-12">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Master BMS</span>
+              </button>
+            <a class="navbar-brand" href="employeedasboard.html"><img style="margin-top: -12px;width: 50px;" src=".\img\lionking.ico"></a>
+</div>
+<div class="collapse navbar-collapse" id="navbar-collapse-01">
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a href="javascript:void(0)" onclick="orders()"href="">Siparişler</a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">İş dökümü </a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">Profil </a>
+</li>
+</ul>
+<form class="navbar-form navbar-right" action="javascript:not();" role="search">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" id="navbarInput-01" type="search" placeholder="Arama">
+            <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" onclick="not()" style="color: #ffffff; background-color: #3498db;" class="btn"> <span class="fui-user"></span>
+<script>  document.write(localStorage.getItem("name"));</script>
+</button>
+</div>
+<div class="form-group">
+    <button type="button" onclick="cikis()" class="btn"> <span class="fui-exit"></span> Çıkış</button>
+</div>
+</form>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+<div>
+    <a href="javascript:void(0)" style="width: 300px; margin:10px;" onclick="siparissil()" class="btn btn-lg btn-danger">Sipariş Sil</a>
+<a href="javascript:void(0)" style="width: 300px; margin:10px;" onclick="siparisGonder()" class="btn btn-lg btn-info">Sipariş Gönder</a>
+</div>
+<div class="demo-browser" style="padding: 5px;">
+<div class="todo" style="margin: 0px;">
+
+<ul id='list'>
+    <script>
+    </script>
+</ul>
+</div>
+</div>
+
+<!-- /navbar -->
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/video.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+
+<script>
+                                                                         videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+</script>
+</body>
+
+</html>

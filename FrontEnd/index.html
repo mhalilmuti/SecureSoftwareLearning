@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Master BMS</title>
+  <meta name="description" content="Master BMS" />
+
+  <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Loading Sweet Alert -->
+  <script src="./js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+  <!-- Loading Bootstrap -->
+  <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Loading Flat UI -->
+  <link href="./css/flat-ui.css" rel="stylesheet">
+  <link href="./css/demo.css" rel="stylesheet">
+
+  <link rel="shortcut icon" href="img/lionking.ico">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+  <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+  <script>
+    function init() {
+      localStorage.clear();
+    }
+    function emlogin() { //emlogin girisyap butonu
+      var name = document.getElementById("emlogin-username").value;
+      var password = document.getElementById("emlogin-logpass").value;
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      //#Employee login URL
+      xmlhttp.open("POST", "http://localhost:54250/token", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.setRequestHeader("userType", "employee");
+      xmlhttp.setRequestHeader("Accept", "*/*");
+      try {
+        xmlhttp.onload = function () {
+          if (xmlhttp.readyState === xmlhttp.DONE) {
+            if (xmlhttp.status === 200) {
+              var rest = JSON.parse(xmlhttp.response);
+              localStorage.setItem("token", rest.access_token);
+              localStorage.setItem("name", rest.name);
+              localStorage.setItem("surname", rest.surname);
+              localStorage.setItem("id", rest.id);
+              localStorage.setItem("userType", rest.userType);
+              document.getElementById("emlogin-username").value = "";
+              password = document.getElementById("emlogin-logpass").value = "";
+              location.href = "employeedasboard.html";
+            }else{
+               swal("Giriş başarısız", "Lütfen tekrar deneyiniz", "error");
+            }
+          }
+        }
+        xmlhttp.send($.param({ UserName: name, Password: password, grant_type: 'password' }));
+      } catch (e) {
+        swal("Giriş başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+      }
+      //formbosalt
+
+    }
+    function custlogin() { //custlogin girisyap butonu
+      var name = document.getElementById("custlogin-username").value;
+      var password = document.getElementById("custlogin-logpass").value;
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      //#Customer login URL
+      xmlhttp.open("POST", "http://localhost:54250/token", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.setRequestHeader("userType", "customer");
+      xmlhttp.setRequestHeader("Accept", "*/*");
+      try {
+        xmlhttp.onload = function () {
+          if (xmlhttp.readyState === xmlhttp.DONE) {
+            if (xmlhttp.status === 200) {
+              var rest = JSON.parse(xmlhttp.response);
+              localStorage.setItem("token", rest.access_token);
+              localStorage.setItem("name", rest.name);
+              localStorage.setItem("surname", rest.surname);
+              localStorage.setItem("id", rest.id);
+              localStorage.setItem("userType", rest.userType);
+              location.href = "customerdasboard.html";
+              document.getElementById("custlogin-username").value = "";
+              password = document.getElementById("custlogin-logpass").value = "";
+            }else{
+               swal("Giriş başarısız", "Lütfen tekrar deneyiniz", "error");
+            }
+          }
+        }
+        xmlhttp.send($.param({ UserName: name, Password: password, grant_type: 'password' }));
+      } catch (e) {
+        swal("Giriş başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+      }
+      //formbosalt
+
+    }
+
+    function submit() { //kaydol butonu
+      var username = document.getElementById("login-uname").value;
+      var name = document.getElementById("login-name").value;
+      var surname = document.getElementById("login-surname").value;
+      var password = document.getElementById("login-pass").value;
+      var password2 = document.getElementById("login-pass2").value;
+      var role = document.getElementById("selectrole").value;
+      var country = document.getElementById("country").value;
+      var city = document.getElementById("city").value;
+      var district = document.getElementById("district").value;
+      var address = document.getElementById("address").value;
+      var phone = document.getElementById("phone").value;
+      if (password != password2) {
+        password = document.getElementById("login-pass").value = "";
+        password2 = document.getElementById("login-pass2").value = "";
+        swal("Şifreler eşleşmiyor", "Lütfen şifrelerininzi tekrar giriniz", "error");
+      } else {
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+        if (role == "1") {
+          //Çalışan Ekleme  #ÇALIŞAN URL YAZILACAK
+          console.log("Çalışan Ekleme");
+          // /api/Employee/Create
+          xmlhttp.open("POST", "http://localhost:54250/api/Employee/Create", true);
+          xmlhttp.setRequestHeader("Content-Type", "application/json");
+          xmlhttp.setRequestHeader("Accept", "*/*");
+
+        } else {
+          //Müşteri Ekleme   #Müşteri URL YAZILACAK
+          console.log("Müşteri Ekleme");
+          //api/Customer/Create
+          xmlhttp.open("POST", "http://localhost:54250/api/Customer/Create", true);
+          xmlhttp.setRequestHeader("Content-Type", "application/json");
+          xmlhttp.setRequestHeader("Accept", "*/*");
+
+        }
+        //Girilen urle istek yapma
+
+        try {
+          xmlhttp.onload = function () {
+            if (xmlhttp.readyState === xmlhttp.DONE) {
+              if (xmlhttp.status === 200) {
+                document.getElementById("main").style.display = "block";
+                document.getElementById("emlogin").style.display = "none";
+                document.getElementById("custlogin").style.display = "none";
+                document.getElementById("submit").style.display = "none";
+                swal("Kayıt Başarılı", "Kullanıcı Adı ve şifrenizle Giriş Yapabilirsiniz", "success");
+              }
+            }
+          };
+
+          xmlhttp.send(JSON.stringify({
+            username: username, name: name, surname: surname, password: password,
+            contact: {
+              countryId: parseInt(country),
+              cityId: parseInt(city),
+              districtId: parseInt(district),
+              address: address,
+              phone: phone,
+              description: ""
+            }
+          }));
+        } catch (e) {
+          swal("Kayıt başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+        }
+
+        if (xmlhttp.status == 200) {
+          document.getElementById("login-uname").value = "";
+          document.getElementById("login-name").value = "";
+          document.getElementById("login-surname").value = "";
+          password = document.getElementById("login-pass").value = "";
+          password2 = document.getElementById("login-pass2").value = "";
+          swal("Kayıt Başarılı", "Kullanıcı adınızı ve şifrenizi girerek oturum açabilirsiniz", "success");
+          this.mainac();
+        } else {
+          swal("Kayıt başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+        }
+      }
+    }
+    function singupac() { //singup form view
+      document.getElementById("main").style.display = "none";
+      document.getElementById("emlogin").style.display = "none";
+      document.getElementById("custlogin").style.display = "none";
+      document.getElementById("submit").style.display = "block";
+      select = document.getElementById('country');
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "http://localhost:54250/api/Contact/GetCountries", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.setRequestHeader("Accept", "*/*");
+
+      try {
+        xmlhttp.onload = function () {
+          if (xmlhttp.readyState === xmlhttp.DONE) {
+            if (xmlhttp.status === 200) {
+              var list = JSON.parse(xmlhttp.response);
+              for (var a = 0; a < list.length; a++) {
+                var opt = document.createElement('option');
+                opt.value = list[a].id;
+                opt.innerHTML = list[a].name;
+                select.appendChild(opt);
+              }
+            }
+          }
+        };
+        xmlhttp.send(null);
+      } catch (e) {
+        swal("Hata", "Lütfen Daha sonra tekrar deneyiniz", "error");
+      }
+    }
+
+    function emloginac() { //login form view
+      document.getElementById("main").style.display = "none";
+      document.getElementById("emlogin").style.display = "block";
+      document.getElementById("custlogin").style.display = "none";
+      document.getElementById("submit").style.display = "none";
+
+    }
+    function custloginac() { //login form view
+      document.getElementById("main").style.display = "none";
+      document.getElementById("emlogin").style.display = "none";
+      document.getElementById("custlogin").style.display = "block";
+      document.getElementById("submit").style.display = "none";
+
+    }
+    function mainac() { //login form view
+      document.getElementById("main").style.display = "block";
+      document.getElementById("emlogin").style.display = "none";
+      document.getElementById("custlogin").style.display = "none";
+      document.getElementById("submit").style.display = "none";
+
+    }
+    function selectcountry() {
+      selected = document.getElementById('country');
+      select = document.getElementById('city');
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "http://localhost:54250/api/Contact/GetCities?countryId=" + selected.value, true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.setRequestHeader("Accept", "*/*");
+
+      try {
+        xmlhttp.onload = function () {
+          if (xmlhttp.readyState === xmlhttp.DONE) {
+            if (xmlhttp.status === 200) {
+              var list = JSON.parse(xmlhttp.response);
+              for (var a = 0; a < list.length; a++) {
+                var opt = document.createElement('option');
+                opt.value = list[a].id;
+                opt.innerHTML = list[a].name;
+                select.appendChild(opt);
+              }
+            }
+          }
+        };
+        xmlhttp.send(null);
+
+      } catch (e) {
+        swal("Ülke Seçilemedi", "Lütfen Daha sonra tekrar deneyiniz", "error");
+      }
+    }
+
+    function selectcity() {
+      selected = document.getElementById('city');
+      select = document.getElementById('district');
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "http://localhost:54250/api/Contact/GetDistricts?cityId=" + selected.value, true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.setRequestHeader("Accept", "*/*");
+
+      try {
+        xmlhttp.onload = function () {
+          if (xmlhttp.readyState === xmlhttp.DONE) {
+            if (xmlhttp.status === 200) {
+              var list = JSON.parse(xmlhttp.response);
+              for (var a = 0; a < list.length; a++) {
+                var opt = document.createElement('option');
+                opt.value = list[a].id;
+                opt.innerHTML = list[a].name;
+                select.appendChild(opt);
+              }
+            }
+          }
+        };
+        xmlhttp.send(null);
+
+      } catch (e) {
+        swal("Şehir Seçilemedi", "Lütfen Daha sonra tekrar deneyiniz", "error");
+      }
+    }
+
+
+  </script>
+</head>
+<body onload="init()" style="background-color: #1abc9c;">
+<div class="container" style="width: 650px !important;">
+<div class="demo-headline">
+
+  <div class="login-form">
+    <div class="form-group">
+      <img src="img\icons\png/lionking.png" alt="Welcome to Mail App" />
+      <h4>Maser BMS'e Hoş geldiniz</h4>
+    </div>
+    <!-- Main -->
+    <div id="main">
+      <form action="">
+        <div class="form-group">
+
+        </div>
+        <div style="display:flex;">
+<button type="button" onclick="custloginac();" class="btn btn-primary btn-lg btn-block" style="margin: 0px 5px 0px 5px;"> Müşteri Giriş</button>
+<button type="button" onclick="emloginac();" class="btn btn-info btn-lg btn-block" style="margin: 0px 5px 0px 5px;"> Çalışan Giriş</button>
+<a class="btn btn-inverse btn-lg btn-block" style="margin: 0px 5px 0px 5px;" onclick="singupac()">Kayıt Ol</a>
+</div>
+</form>
+</div>
+<!-- emlogin -->
+<div id="emlogin" style="display: none;">
+<h5>Çalışan Girişi</h5>
+<form action="javascript:emlogin();">
+  <div class="form-group">
+    <input type="text" class="form-control login-field" value="" required placeholder="Kullanıcı Adı" id="emlogin-username" />
+    <label class="login-field-icon fui-user" for="emlogin-name"></label>
+  </div>
+
+  <div class="form-group">
+    <input type="password" class="form-control login-field" value="" required placeholder="Şifre" id="emlogin-logpass" />
+    <label class="login-field-icon fui-lock" for="emlogin-pass"></label>
+  </div>
+
+  <div style="display:flex;">
+<button type="submit" class="btn btn-primary btn-lg btn-block" style="margin: 0px 5px 0px 5px;">Giriş</button>
+<a class="btn btn-inverse btn-lg btn-block" style="margin: 0px 5px 0px 5px;" onclick="mainac()">Geri</a>
+</div>
+<a class="login-link" href="#">Şifremi Unuttum?</a>
+</form>
+</div>
+<!-- /emlogin -->
+<!-- custlogin -->
+<div id="custlogin" style="display: none;">
+<h5>Müşteri Girişi</h5>
+<form action="javascript:custlogin();">
+  <div class="form-group">
+    <input type="text" class="form-control login-field" value="" required placeholder="Kullanıcı Adı" id="custlogin-username"
+    />
+    <label class="login-field-icon fui-user" for="custlogin-name"></label>
+  </div>
+
+  <div class="form-group">
+    <input type="password" class="form-control login-field" value="" required placeholder="Şifre" id="custlogin-logpass" />
+    <label class="login-field-icon fui-lock" for="custlogin-pass"></label>
+  </div>
+
+  <div style="display:flex;">
+<button type="submit" class="btn btn-primary btn-lg btn-block" style="margin: 0px 5px 0px 5px;">Giriş</button>
+<a class="btn btn-inverse btn-lg btn-block" style="margin: 0px 5px 0px 5px;" onclick="mainac()">Geri</a>
+</div>
+<a class="login-link" href="#">Şifremi Unuttum?</a>
+</form>
+</div>
+<!-- /custlogin -->
+<!-- submit -->
+<div id="submit" style="display:none;">
+<form action="javascript:submit();">
+  <div class="form-group">
+
+    <select class="form-control select select-primary select2-offscreen" required data-toggle="select" tabindex="1" title=""
+      id="selectrole">
+            <option value selected>Bir Rol Seçiniz</option>
+            <option value="1">Çalışan</option>
+            <option value="2">Müşteri</option>
+          </select>
+
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control login-field" value="" tabindex="2" required placeholder="Kullanıcı Adı" id="login-uname"
+    />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control login-field" value="" required tabindex="3" placeholder="Adı" id="login-name" />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control login-field" value="" required tabindex="4" placeholder="Soyadı" id="login-surname"
+    />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+  </div>
+  <div class="form-group">
+    <select class="form-control select  select2-offscreen" required data-toggle="select" onchange="selectcountry()" id="country" tabindex="5" title="">
+<option value selected>Bir Ülke Seçiniz</option>
+</select>
+</div>
+<div class="form-group">
+  <select class="form-control select  select2-offscreen" required data-toggle="select" onchange="selectcity()" id="city" tabindex="6" title="">
+<option value selected>Bir Şehir Seçiniz</option>
+</select>
+</div>
+<div class="form-group">
+  <select class="form-control select  select2-offscreen" required data-toggle="select" id="district" tabindex="7" title="">
+            <option value selected>Bir İlçe Seçiniz</option>
+          </select>
+</div>
+<div class="form-group">
+  <textarea class="form-control login-field" value="" required placeholder="Adres" tabindex="8" id="address"></textarea>
+  <label class="login-field-icon fui-home" for="login-name"></label>
+</div>
+<div class="form-group">
+  <input type="number" class="form-control login-field" value="" required placeholder="Telefon" tabindex="9" id="phone" />
+  <label class="login-field-icon fui-user" for="login-name"></label>
+</div>
+<div class="form-group">
+  <input type="password" class="form-control login-field" required value="" placeholder="Şifre" tabindex="10" id="login-pass"
+  />
+  <label class="login-field-icon fui-lock" for="login-pass"></label>
+</div>
+<div class="form-group">
+  <input type="password" class="form-control login-field" required value="" placeholder="Şifre Kontrol" tabindex="11" id="login-pass2"
+  />
+  <label class="login-field-icon fui-lock" for="login-pass"></label>
+</div>
+<div style="display:flex;">
+<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="12" style="margin: 0px 5px 0px 5px;">Kayıt Ol</button>
+<a class="btn btn-inverse btn-lg btn-block" style="margin: 0px 5px 0px 5px;" tabindex="13" onclick="mainac()">Geri</a>
+</div>
+</form>
+<!-- /submit -->
+</div>
+
+</div>
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/video.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+
+<script>
+                                                                                                    videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+</script>
+</body>
+
+</html>
