@@ -1,0 +1,12 @@
+C:\Users\TR\Documents\GitHub\secure-software\DAL\bin\Debug\DAL.dll
+C:\Users\TR\Documents\GitHub\secure-software\DAL\bin\Debug\DAL.pdb
+C:\Users\TR\Documents\GitHub\secure-software\DAL\bin\Debug\MySql.Data.dll
+C:\Users\TR\Documents\GitHub\secure-software\DAL\bin\Debug\MySql.Data.xml
+C:\Users\TR\Documents\GitHub\secure-software\DAL\obj\Debug\DAL.dll
+C:\Users\TR\Documents\GitHub\secure-software\DAL\obj\Debug\DAL.pdb
+C:\Users\muti\Documents\GitHub\secure-software\DAL\bin\Debug\DAL.dll
+C:\Users\muti\Documents\GitHub\secure-software\DAL\bin\Debug\DAL.pdb
+C:\Users\muti\Documents\GitHub\secure-software\DAL\bin\Debug\MySql.Data.xml
+C:\Users\muti\Documents\GitHub\secure-software\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\muti\Documents\GitHub\secure-software\DAL\obj\Debug\DAL.dll
+C:\Users\muti\Documents\GitHub\secure-software\DAL\obj\Debug\DAL.pdb

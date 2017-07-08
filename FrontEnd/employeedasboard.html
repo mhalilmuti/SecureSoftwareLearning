@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Master BMS</title>
+    <meta name="description" content="Master BSM" />
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Sweet Alert -->
+    <script src="./js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+    <!-- Loading Bootstrap -->
+    <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="./css/flat-ui.css" rel="stylesheet">
+    <link href="./css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/lionking.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function not() {
+            swal({
+                title: "Sayfa görüntülenemiyor!",
+                text: "<img style='width:420px; height:240px;' src='img/yapim.jpg'>",
+                html: true
+            });
+        }
+        function orders() {
+            location.href = "orders.html";
+        }
+
+        function cikis() {
+            location.href = "index.html";
+        }
+    </script>
+</head>
+<body style="background-color: #1abc9c;">
+<div class="col-xs-12">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Master BMS</span>
+              </button>
+            <a class="navbar-brand" href="employeedasboard.html"><img style="margin-top: -12px;width: 50px;" src=".\img\lionking.ico"></a>
+</div>
+<div class="collapse navbar-collapse" id="navbar-collapse-01">
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a href="javascript:void(0)" onclick="orders()"href="">Siparişler</a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">İş dökümü </a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">Profil </a>
+</li>
+</ul>
+<form class="navbar-form navbar-right" action="javascript:not();" role="search">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" id="navbarInput-01" type="search" placeholder="Arama">
+            <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" onclick="not()" style="color: #ffffff; background-color: #3498db;" class="btn"> <span class="fui-user"></span>
+<script>  document.write(localStorage.getItem("name"));</script>
+</button>
+</div>
+<div class="form-group">
+    <button type="button" onclick="cikis()" class="btn"> <span class="fui-exit"></span> Çıkış</button>
+</div>
+</form>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+<div class="demo-browser">
+    <div class="demo-browser-side">
+        <div class="demo-browser-author"></div>
+        <h4 style="text-align: center;">Master BMS</h4>
+<p>İş hayatı hiç bukadar kolay olmamıştı...</p>
+</div>
+<div class="demo-browser-content">
+    <div class="row demo-tiles">
+        <div class="col-xs-3">
+            <div class="tile tile-hot">
+                <img src="img/icons/svg/ribbon.svg" alt="ribbon" class="tile-hot-ribbon">
+                <img src="img/icons/svg/clocks.svg" alt="Compas" class="tile-image big-illustration">
+                <h3 class="tile-title">Acil Siparişler</h3>
+                <p>53 Adet</p>
+                <a class="btn btn-inverse btn-large btn-block" href="javascript:void(0)" onclick="not()">Görüntüle</a>
+</div>
+</div>
+
+<div class="col-xs-3">
+    <div class="tile">
+        <img src="img/icons/svg/paper-bag.svg" alt="Infinity-Loop" class="tile-image">
+        <h3 class="tile-title">Bekleyen Siparişler</h3>
+        <p>180 Adet</p>
+        <a class="btn btn-inverse btn-large btn-block" href="javascript:void(0)" onclick="not()">Görüntüle</a>
+</div>
+</div>
+
+<div class="col-xs-3">
+    <div class="tile">
+        <img src="img/icons/svg/map.svg" alt="Pensils" class="tile-image">
+        <h3 class="tile-title">Gönderilen Siparişler</h3>
+        <p>143 Adet</p>
+        <a class="btn btn-inverse btn-large btn-block" href="javascript:void(0)" onclick="not()">Görüntüle</a>
+</div>
+</div>
+
+<div class="col-xs-3">
+    <div class="tile">
+        <img src="img/icons/svg/clipboard.svg" alt="Chat" class="tile-image">
+        <h3 class="tile-title">Teslim Edilen Siparişler</h3>
+        <p>386 Adet</p>
+        <a class="btn btn-inverse btn-large btn-block" href="javascript:void(0)" onclick="not()">Görüntüle</a>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- /navbar -->
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/video.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+
+<script>
+                                                                                              videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+</script>
+</body>
+
+</html>

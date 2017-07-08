@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Master BMS</title>
+    <meta name="description" content="Master BSM" />
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Sweet Alert -->
+    <script src="./js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+    <!-- Loading Bootstrap -->
+    <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="./css/flat-ui.css" rel="stylesheet">
+    <link href="./css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/lionking.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function init() {
+            var xmlhttp2 = new XMLHttpRequest();   // new HttpRequest instance 
+            xmlhttp2.open("GET", "http://localhost:54250/api/Customer/Get?id=" + localStorage.getItem("id"), true);
+            xmlhttp2.setRequestHeader("Content-Type", "application/json");
+            xmlhttp2.setRequestHeader("Accept", "*/*");
+            try {
+                var liste = [];
+                xmlhttp2.onload = function () {
+                    if (xmlhttp2.readyState === xmlhttp2.DONE) {
+                        if (xmlhttp2.status === 200) {
+                            var rest = JSON.parse(xmlhttp2.response);
+                            console.log(rest);
+                            document.getElementById("login-uname").value = rest[0].username;
+                            document.getElementById("login-name").value = rest[0].name;
+                            document.getElementById("login-surname").value = rest[0].surname;
+                        }
+                    }
+                }
+            } catch (e) {
+                swal("Hata", "Lütfen Daha sonra tekrar deneyiniz", "error");
+            }
+            xmlhttp2.send(null);
+        }
+        function not() {
+            swal({
+                title: "Sayfa görüntülenemiyor!",
+                text: "<img style='width:420px; height:240px;' src='img/yapim.jpg'>",
+                html: true
+            });
+        }
+        function alisveris() {
+            location.href = "shopping.html";
+        }
+
+        function cikis() {
+            location.href = "index.html";
+        }
+        function profil() {
+            location.href = "profile.html";
+        }
+        function guncelle() {
+            var username = document.getElementById("login-uname").value;
+            var name = document.getElementById("login-name").value;
+            var surname = document.getElementById("login-surname").value;
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+            //#Employee login URL
+            xmlhttp.open("POST", "http://localhost:54250/api/Customer/Update", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader("userType", "employee");
+            xmlhttp.setRequestHeader("Accept", "*/*");
+            try {
+                xmlhttp.onload = function () {
+                    if (xmlhttp.readyState === xmlhttp.DONE) {
+                        if (xmlhttp.status === 200) {
+
+                            swal("Güncelleme Tamamlandı!", "Bilgileriniz Güncellendi", "success");
+                        }
+                    }
+                }
+                xmlhttp.send(JSON.stringify({ username: username, name: name, surname: surname, id: localStorage.getItem("id") }));
+            } catch (e) {
+                swal("Giriş başarısız", "Lütfen Daha sonra tekrar deneyiniz", "error");
+            }
+        }
+    </script>
+</head>
+<body onload="init()" style="background-color: #1abc9c;">
+<div class="col-xs-12">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Master BMS</span>
+              </button>
+            <a class="navbar-brand" href="customerdasboard.html"><img style="margin-top: -12px;width: 50px;" src=".\img\lionking.ico"></a>
+</div>
+<div class="collapse navbar-collapse" id="navbar-collapse-01">
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a href="javascript:void(0)" onclick="alisveris()"href="">Alış verişe Başla</a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="not()">Siparişlerim </a>
+</li>
+<li>
+    <a href="javascript:void(0)" onclick="profil()">Profil </a>
+</li>
+</ul>
+<form class="navbar-form navbar-right" action="javascript:not();" role="search">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" id="navbarInput-01" type="search" placeholder="Arama">
+            <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group" id="username">
+        <button type="button" onclick="profil()" style="color: #ffffff; background-color: #3498db;" class="btn"> <span class="fui-user"></span>
+<script>  document.write(localStorage.getItem("name"));</script>
+</button>
+</div>
+<div class="form-group">
+    <button type="button" onclick="cikis()" class="btn"> <span class="fui-exit"></span> Çıkış</button>
+</div>
+</form>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+<div class="container" style="width: 650px !important;">
+<div class="demo-headline">
+    <div class="login-form">
+        <form action="javascript:guncelle();">
+            <p style="font-weight: bold;text-align: left;">Kullanıcı Adınız:</p>
+<div class="form-group">
+    <input type="text" class="form-control login-field" value="" tabindex="2" required placeholder="Kullanıcı Adı" id="login-uname"
+    />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+</div>
+<p style="font-weight: bold; text-align: left;" >Adınız:</p>
+<div class="form-group">
+    <input type="text" class="form-control login-field" value="" required tabindex="3" placeholder="Adı" id="login-name" />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+</div>
+<p style="font-weight: bold;text-align: left;" >Soyadınız:</p>
+<div class="form-group">
+    <input type="text" class="form-control login-field" value="" required tabindex="4" placeholder="Soyadı" id="login-surname"
+    />
+    <label class="login-field-icon fui-user" for="login-name"></label>
+</div>
+<div style="display:flex;">
+<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="12" style="margin: 0px 5px 0px 5px;">Güncelle</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- /navbar -->
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/video.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+
+<script>
+                                   videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+</script>
+</body>
+
+</html>
